@@ -2,7 +2,7 @@
 /*
     Plugin Name: ACF - Restrict Color Picker Options
     Plugin URI:
-    Description: Customize ACF's color picker field to show only those colors specified
+    Description: Restrict ACF's color picker field to a specific subset of custom colors.
     Version: 1.0
     Author: Vital
     Author URI: http://vtldesign.com
