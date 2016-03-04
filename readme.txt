@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: (this should be a list of wordpress.org userid's)
+Contributors: seanseansean
 Tags: custom fields, acf, color
 Requires at least: 4.0
 Tested up to: 4.4.2
