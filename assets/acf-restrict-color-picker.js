@@ -1,7 +1,5 @@
 (function($) {
 
-    console.log(acfRCPOptions.colorPickerOptions);
-
     var input, pickerWrap, valBox;
 
     acf.add_action('ready append', function() {
