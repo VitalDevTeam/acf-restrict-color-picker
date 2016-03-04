@@ -32,18 +32,23 @@ class ACF_Restrict_Color_Picker_Options {
 
     private $plugin_path;
     private $plugin_url;
+    private $color_settings;
 
     /**
      * Initialize plugin
      */
     public function __construct() {
 
-        $this->plugin_path = plugin_dir_path(__FILE__);
-        $this->plugin_url  = plugin_dir_url(__FILE__);
+        $this->plugin_path    = plugin_dir_path(__FILE__);
+        $this->plugin_url     = plugin_dir_url(__FILE__);
+        $this->color_settings = get_option('acf_rcpo_settings');
 
-        add_action('acf/input/admin_enqueue_scripts', array($this, 'register_scripts'));
-        add_action('acf/input/admin_enqueue_scripts', array($this, 'register_styles'));
-        add_action('acf/input/admin_enqueue_scripts', array($this, 'localize_options'));
+        if (!empty($this->color_settings) && !in_array('', $this->color_settings)) {
+            add_action('acf/input/admin_enqueue_scripts', array($this, 'register_scripts'));
+            add_action('acf/input/admin_enqueue_scripts', array($this, 'register_styles'));
+            add_action('acf/input/admin_enqueue_scripts', array($this, 'localize_options'));
+        }
+
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'action_links'));
 
         require $this->plugin_path . 'admin.php';
@@ -84,14 +89,12 @@ class ACF_Restrict_Color_Picker_Options {
         $color_options = array();
 
         // Get color options setting
-        if (get_option('acf_rcpo_settings')) {
-            $color_restrictions = get_option('acf_rcpo_settings');
-            // Remove any whitespace
-            $color_restrictions = preg_replace('/\s+/', '', $color_restrictions);
-            // Convert to array
-            $color_restrictions = explode(',', $color_restrictions['color']);
-            $color_options = $color_restrictions;
-        }
+        $color_restrictions = $this->color_settings;
+        // Remove any whitespace
+        $color_restrictions = preg_replace('/\s+/', '', $color_restrictions);
+        // Convert to array
+        $color_restrictions = explode(',', $color_restrictions['color']);
+        $color_options = $color_restrictions;
 
         // Encode for JS
         $color_json = json_encode($color_options);
