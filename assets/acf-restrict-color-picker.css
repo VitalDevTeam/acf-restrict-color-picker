@@ -1,0 +1,48 @@
+.wp-picker-clear {
+	display: none !important;
+}
+
+.wp-picker-container {
+	display: block;
+}
+
+.wp-picker-container input[type=text].wp-color-picker {
+	outline: 0 !important;
+	border: 1px solid #dddddd !important;
+	box-shadow: none !important;
+	pointer-events: none;
+}
+
+.wp-picker-container:active {
+	display: block;
+}
+
+.iris-picker.iris-border {
+	width: 100% !important;
+	height: auto !important;
+	padding-bottom: 0 !important;
+	border: 0;
+}
+
+.iris-border .iris-picker-inner {
+	display: none;
+}
+
+.iris-palette-container {
+	position: static !important;
+	font-size: 0;
+	line-height: 1;
+	padding: 3px;
+}
+
+.iris-palette {
+	border: 3px solid white;
+	border-radius: 5px !important;
+	box-shadow: inset 0 0 1px black !important;
+	display: inline-block;
+	float: none !important;
+	height: 36.9px !important;
+	margin: 0 !important;
+	margin-left: 0 !important;
+	width: 36.9px !important;
+}
