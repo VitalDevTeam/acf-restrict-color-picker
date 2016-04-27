@@ -1,9 +1,9 @@
 === Advanced Custom Fields: Restrict Color Picker Options ===
-Contributors: seanseansean
+Contributors: adamwalter,seanseansean
 Tags: custom fields, acf, color
 Requires at least: 4.0
 Tested up to: 4.4.2
-Stable tag: trunk
+Stable tag: 1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
