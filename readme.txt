@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== Advanced Custom Fields: Restrict Color Picker Options ===
 Contributors: seanseansean
 Tags: custom fields, acf, color
 Requires at least: 4.0
@@ -22,7 +22,7 @@ Restrict Advanced Custom Fields color picker field to a specific subset of custo
 
 = I have a question =
 
-Leave your question in the support tab and I'll respond!
+Leave your question in the support tab and we'll respond!
 
 == Screenshots ==
 
@@ -32,3 +32,6 @@ Leave your question in the support tab and I'll respond!
 
 = 1.0 =
 * First version of the plugin
+
+= 1.1 =
+* Change the plugin name to better match similar plugins in the ACF world.

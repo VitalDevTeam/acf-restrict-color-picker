@@ -1,6 +1,6 @@
 <?php
 /*
-    Plugin Name: ACF - Restrict Color Picker Options
+    Plugin Name: Advanced Custom Fields: Restrict Color Picker Options
     Plugin URI:
     Description: Restrict ACF's color picker field to a specific subset of custom colors.
     Version: 1.0
