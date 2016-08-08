@@ -46,3 +46,7 @@
 	margin-left: 0 !important;
 	width: 36.9px !important;
 }
+
+.wp-picker-clear {
+	display: inline-block !important;
+}
