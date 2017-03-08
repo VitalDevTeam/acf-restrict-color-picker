@@ -95,7 +95,11 @@ class ACF_RCPO_Settings_Page {
      * Print section text
      */
     public function print_section_info() {
-        print 'This plugin removes the color wheel from all ACF color picker fields and restricts the user to a specific set of colors defined here.';
+        print 'This plugin removes the color wheel from all ACF color picker fields and restricts the user to a specific set of colors defined here.<br /><br />';
+        print 'When configuring a color picker field, if the \'Default Value\' is set, this will override the master color options (defined below) for that field. You may prepend <code>default-</code> to a hex value to enable that color by default.<br /><br />';
+        print '<strong>Examples: </strong><br />';
+        print '<code>#333, #666, #999</code><br />';
+        print '<code>#ff0000, #00ff00, default-#0000ff</code><br />';
     }
 
     /**

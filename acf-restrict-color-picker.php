@@ -86,26 +86,66 @@ class ACF_Restrict_Color_Picker_Options {
      */
     public function localize_options() {
 
-        $color_options = array();
+        // TO DO: Only execute on post creation or edit pages via global $pagenow? (this was loading in ACF field editor sections)
+        $color_palettes = array();          // Store the color palettes; 'master' key for global palette
+        $color_options_master = array();    // Get master color option
+        $color_restrictions = $this->color_settings;    // Get color options setting
+        $color_restrictions = preg_replace('/\s+/', '', $color_restrictions);   // Remove any whitespace
+        $color_restrictions = explode(',', $color_restrictions['color']);   // Convert to array
+        $color_options_master = $color_restrictions;
+        $color_palettes['master'] = $color_options_master;     // Store result in color palettes
 
-        // Get color options setting
-        $color_restrictions = $this->color_settings;
-        // Remove any whitespace
-        $color_restrictions = preg_replace('/\s+/', '', $color_restrictions);
-        // Convert to array
-        $color_restrictions = explode(',', $color_restrictions['color']);
-        $color_options = $color_restrictions;
-
-        // Encode for JS
-        $color_json = json_encode($color_options);
+        // Iterate through active field groups to find active color_picker fields
+        $acf_groups = acf_get_field_groups();
+        if(!empty($acf_groups)) {
+            foreach( $acf_groups as $acf_group ) {
+                $this->get_color_palettes(acf_get_fields($acf_group['key']), $color_palettes);
+            }
+        }
 
         // Pass values along to plugin JS file
-        wp_localize_script('acf_restrict_color_picker_js', 'acfRCPOptions', array(
-            'colorPickerOptions' => $color_json
-        ));
-
+        wp_localize_script('acf_restrict_color_picker_js', 'acfRCPOptions', json_encode($color_palettes));
     }
 
+    /**
+     * Given an object containing ACF fields, search them recursively for any color picker
+     * fields and return an array of color palettes used on this page; utilizes the 'Default Value'
+     * field to override the master palette.
+     *
+     * @param  {type}  acf_fields       acf object containing acf fields
+     * @param  {type}  color_palettes   array that will contain the resulting palettes
+     */
+    private function get_color_palettes($acf_fields, &$color_palettes) {
+
+        if(!empty($acf_fields)) {
+            foreach($acf_fields as $acf_field) {
+                if(isset($acf_field['type']) && (strcmp($acf_field['type'], 'color_picker') == 0)) {
+                    if( $this->is_valid_color_palette($acf_field['default_value']) ) {
+                        $color_palettes[$acf_field['key']] = explode(',', str_replace(' ', '', $acf_field['default_value'])); // Remove any spaces and encode for JS
+                    }
+                } else if(!empty($acf_field['layouts'])) {      // Search for and fields containing fields (e.g. 'Flexible Content' fields)
+                    $this->get_color_palettes($acf_field['layouts'], $color_palettes);
+                } else if(!empty($acf_field['sub_fields'])) {
+                    $this->get_color_palettes($acf_field['sub_fields'], $color_palettes);
+                }
+            }
+        }
+    }
+
+    /**
+     * Confirm that the provided color palette is a comma-delimited list of hex values and isn't empty
+     *
+     * @param  {type}  color_palette         The palette to validate
+     * @return {type}  true if palette is valid, false otherwise
+     */
+    private function is_valid_color_palette($color_palette) {
+
+        if( preg_match('/^((default-)?#([0-9a-fA-F]{3}){1,2})(,[\s]?(default-)?#([0-9a-fA-F]{3}){1,2})*$/', $color_palette) ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 new ACF_Restrict_Color_Picker_Options();
