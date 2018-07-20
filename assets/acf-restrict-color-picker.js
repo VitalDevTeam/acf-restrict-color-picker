@@ -48,14 +48,30 @@
                     }
                 });
 
-                $(this).iris({
-                    palettes: JSON.parse(acfRCPColorPalette.replace(/default\-/g, '')),  // Remove 'default-' from JSON so that it's a valid hex value for color picker
-                    change: function(event, ui) {
-                        $(this).parents('.wp-picker-container').find('.wp-color-result').css('background-color', ui.color.toString());
-                    }
-                });
-
                 $(this).addClass('color_restricted');
+                var thisSelector = $(this).attr('class');                       // Get the current selector
+                thisSelector = '.' + thisSelector.replace(/\ /g, '.');
+
+                var waitForEl = function(selector, callback) {
+                  if ($(selector).length) {
+                    callback();
+                  } else {
+                    setTimeout(function() {
+                      waitForEl(selector, callback);
+                    }, 100);
+                  }
+                };
+
+                waitForEl(thisSelector + ' .wp-picker-holder', function() {     // Once the older Iris has loaded, load our new Iris with custom palette
+
+                    $(thisSelector + ' .wp-picker-holder').iris({
+                        palettes: JSON.parse(acfRCPColorPalette.replace(/default\-/g, '')),  // Remove 'default-' from JSON so that it's a valid hex value for color picker
+                        hide: true,
+                        change: function(event, ui) {
+                            $(this).parents('.wp-picker-container').find('.wp-color-result').css('background-color', ui.color.toString());
+                        }
+                    });
+                });
             }
         });
     });
