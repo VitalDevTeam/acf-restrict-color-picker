@@ -6,12 +6,13 @@
 
         var acfRCPColorPalettes = JSON.parse(acfRCPOptions);
         var acfRCPColorPaletteMaster = JSON.stringify(acfRCPColorPalettes['master']);
-        var acfRCPColorPalette = '';
         var acfRCPColorInput = '';
         var acfRCPColorInputDefaultIndex = -1;
         var acfRCPColorInputDefaultColor = '';
 
         acf.get_fields({type : 'color_picker'}).each(function() {
+
+            var acfRCPColorPalette = '';    // Stores the result palette for this color picker
 
             if( !$(this).hasClass('color_restricted') ) {  // Set this class to avoid modifying Color Picker more than once per load
 
