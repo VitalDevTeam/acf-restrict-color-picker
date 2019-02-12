@@ -1,5 +1,5 @@
 === Advanced Custom Fields: Restrict Color Picker Options ===
-Contributors: adamwalter,seanseansean
+Contributors: adamwalter,seanseansean,antishow
 Tags: custom fields, acf, color
 Requires at least: 4.0
 Tested up to: 5.0.3
