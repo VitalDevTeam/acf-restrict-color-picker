@@ -1,5 +1,4 @@
 <?php
-// If not called by WordPress, exit
 if (!defined('WP_UNINSTALL_PLUGIN')) {
 	exit();
 }
