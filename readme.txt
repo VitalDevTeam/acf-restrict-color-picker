@@ -2,7 +2,7 @@
 Contributors: adamwalter,seanseansean,antishow,makkal
 Tags: custom fields, acf, color
 Requires at least: 4.0
-Tested up to: 5.0.3
+Tested up to: 5.4.1
 Stable tag: 1.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -30,11 +30,11 @@ Leave your question in the support tab and we'll respond!
 
 == Changelog ==
 
-= 1.0 =
-* First version of the plugin
+= 1.2 =
+* Finally fixes long standing issue with multiple instances of color pickers.
 
 = 1.1 =
 * Change the plugin name to better match similar plugins in the ACF world.
 
-= 1.2 =
-* Finally fixes long standing issue with multiple instances of color pickers.
+= 1.0 =
+* First version of the plugin
