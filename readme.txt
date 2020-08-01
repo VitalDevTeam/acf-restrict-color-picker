@@ -2,7 +2,7 @@
 Contributors: adamwalter,seanseansean,antishow,makkal
 Tags: custom fields, acf, color
 Requires at least: 4.0
-Tested up to: 5.4.1
+Tested up to: 5.5
 Stable tag: 1.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
