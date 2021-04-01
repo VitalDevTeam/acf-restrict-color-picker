@@ -2,8 +2,9 @@
 Contributors: adamwalter,seanseansean,antishow,makkal
 Tags: custom fields, acf, color
 Requires at least: 4.0
-Tested up to: 5.5
-Stable tag: 1.2
+Tested up to: 5.7
+Requires PHP: 7.0
+Stable tag: 1.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +30,13 @@ Leave your question in the support tab and we'll respond!
 1. Simple color swatches allow the user to easily choose from your color set.
 
 == Changelog ==
+
+= 1.3 =
+* Adds option to include the current theme's colors.
+* Adds acfrcpo_get_color_palette function to get the current color palette.
+
+= 1.2.1 =
+* Fixes $l10n parameter syntax in wp_localize_script.
 
 = 1.2 =
 * Finally fixes long standing issue with multiple instances of color pickers.
