@@ -72,7 +72,15 @@ class ACF_RCPO_Settings_Page {
 		add_settings_field(
 			'colors',
 			'Color Options',
-			array($this, 'colors_callback'),
+			array($this, 'print_color_field'),
+			'acf-restrict-color-picker',
+			'acf_rcpo_settings_section'
+		);
+
+		add_settings_field(
+			'include_theme_palette',
+			'Include theme colors?',
+			array($this, 'print_include_theme_palette_field'),
 			'acf-restrict-color-picker',
 			'acf_rcpo_settings_section'
 		);
@@ -85,8 +93,13 @@ class ACF_RCPO_Settings_Page {
 	public function sanitize($input) {
 		$new_input = array();
 
-		if (isset( $input['color']))
+		if (isset($input['color'])) {
 			$new_input['color'] = sanitize_text_field($input['color']);
+		}
+
+		if (isset($input['include_theme_palette'])) {
+			$new_input['include_theme_palette'] = filter_var($input['include_theme_palette'], FILTER_SANITIZE_NUMBER_INT);
+		}
 
 		return $new_input;
 	}
@@ -103,9 +116,9 @@ class ACF_RCPO_Settings_Page {
 	}
 
 	/**
-	 * Get the settings and print its values
+	 * Prints the color options field.
 	 */
-	public function colors_callback() {
+	public function print_color_field() {
 
 		if (isset($this->options['color'])) {
 			$color = esc_attr($this->options['color']);
@@ -114,7 +127,24 @@ class ACF_RCPO_Settings_Page {
 		}
 
 		$output = "<input style='width: 100%;' type='text' id='color' name='acf_rcpo_settings[color]' value='{$color}' placeholder='#e3762e,#00ab8e,#de4e2e,#008ba3,#888178,#636463'/>";
-		$output .= '<p class="description" id="admin-email-description">Comma-separated list of HEX color values.</p>';
+		$output .= '<p class="description">Comma-separated list of HEX color values.</p>';
+
+		echo $output;
+	}
+
+	/**
+	 * Prints the 'Include theme colors' field.
+	 */
+	public function print_include_theme_palette_field() {
+
+		if (isset($this->options['include_theme_palette'])) {
+			$checked = 'checked';
+		} else {
+			$checked = '';
+		}
+
+		$output = "<label><input type='checkbox' id='include_theme_palette' name='acf_rcpo_settings[include_theme_palette]' {$checked}/> Yes</label>";
+		$output .= '<p class="description">If checked, the current theme\'s color palette will be included with your custom color options.</p>';
 
 		echo $output;
 	}

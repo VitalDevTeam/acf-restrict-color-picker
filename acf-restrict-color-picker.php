@@ -35,26 +35,26 @@ class ACF_Restrict_Color_Picker_Options {
 	private $plugin_path;
 	private $plugin_url;
 	private $color_settings;
+	private $theme_color_palette;
 
 	/**
 	 * Initialize plugin
 	 */
 	public function __construct() {
 
-		$this->plugin_path    = plugin_dir_path(__FILE__);
-		$this->plugin_url     = plugin_dir_url(__FILE__);
-		$this->color_settings = get_option('acf_rcpo_settings');
+		$this->plugin_path = plugin_dir_path(__FILE__);
+		$this->plugin_url  = plugin_dir_url(__FILE__);
+		$this->settings    = get_option('acf_rcpo_settings');
 
-		if (!empty($this->color_settings) && !in_array('', $this->color_settings)) {
-			add_action('acf/input/admin_enqueue_scripts', array($this, 'register_scripts'));
-			add_action('acf/input/admin_enqueue_scripts', array($this, 'register_styles'));
-			add_action('acf/input/admin_enqueue_scripts', array($this, 'localize_options'));
-		}
+		add_action('init', [$this, 'init']);
+
+		add_action('acf/input/admin_enqueue_scripts', array($this, 'register_scripts'));
+		add_action('acf/input/admin_enqueue_scripts', array($this, 'register_styles'));
+		add_action('acf/input/admin_enqueue_scripts', array($this, 'localize_options'));
 
 		add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'action_links'));
 
 		require $this->plugin_path . 'admin.php';
-
 	}
 
 	/**
@@ -84,18 +84,22 @@ class ACF_Restrict_Color_Picker_Options {
 	}
 
 	/**
+	 * Initializes plugin functions.
+	 */
+	public function init() {
+		$this->theme_color_palette = $this->get_theme_color_palette();
+	}
+
+	/**
 	 * Localize color options
 	 */
 	public function localize_options() {
 
-		// TO DO: Only execute on post creation or edit pages via global $pagenow? (this was loading in ACF field editor sections)
-		$color_palettes = array();          // Store the color palettes; 'master' key for global palette
-		$color_options_master = array();    // Get master color option
-		$color_restrictions = $this->color_settings;    // Get color options setting
-		$color_restrictions = preg_replace('/\s+/', '', $color_restrictions);   // Remove any whitespace
-		$color_restrictions = explode(',', $color_restrictions['color']);   // Convert to array
+		$color_palettes = [];
+		$color_restrictions = preg_replace('/\s+/', '', $this->settings['color']);
+		$color_restrictions = explode(',', $color_restrictions);
 		$color_options_master = $color_restrictions;
-		$color_palettes['master'] = $color_options_master;     // Store result in color palettes
+		$color_palettes['master'] = $color_options_master;
 
 		// Iterate through active field groups to find active color_picker fields
 		$acf_groups = acf_get_field_groups();
@@ -105,7 +109,10 @@ class ACF_Restrict_Color_Picker_Options {
 			}
 		}
 
-		// Pass values along to plugin JS file
+		if (isset($this->settings['include_theme_palette']) && !empty($this->theme_color_palette) && is_array($this->theme_color_palette)) {
+			$color_palettes['master'] = array_merge($this->theme_color_palette, $color_palettes['master']);
+		}
+
 		wp_localize_script('acf_restrict_color_picker_js', 'acfRCPOptions', ['color_palettes' => json_encode($color_palettes)]);
 	}
 
@@ -147,6 +154,26 @@ class ACF_Restrict_Color_Picker_Options {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Gets the current theme's color palette.
+	 *
+	 * @return array HEX color codes.
+	 */
+	private function get_theme_color_palette() {
+		$colors = get_theme_support('editor-color-palette')[0];
+		$palette = [];
+
+		if (is_array($colors)) {
+			foreach ($colors as $color) {
+				if (isset($color['color'])) {
+					$palette[] = $color['color'];
+				}
+			}
+		}
+
+		return $palette;
 	}
 }
 
