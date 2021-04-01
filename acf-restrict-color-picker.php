@@ -106,7 +106,7 @@ class ACF_Restrict_Color_Picker_Options {
 		}
 
 		// Pass values along to plugin JS file
-		wp_localize_script('acf_restrict_color_picker_js', 'acfRCPOptions', json_encode($color_palettes));
+		wp_localize_script('acf_restrict_color_picker_js', 'acfRCPOptions', ['color_palettes' => json_encode($color_palettes)]);
 	}
 
 	/**
