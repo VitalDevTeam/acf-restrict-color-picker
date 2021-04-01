@@ -151,3 +151,35 @@ class ACF_Restrict_Color_Picker_Options {
 }
 
 new ACF_Restrict_Color_Picker_Options();
+
+/**
+ * Gets the current color palette.
+ *
+ * @return array HEX color codes, including the default color.
+ */
+function acfrcpo_get_color_palette() {
+	$settings = get_option('acf_rcpo_settings');
+	$settings = preg_replace('/\s+/', '', $settings);
+	$color_settings = explode(',', $settings['color']);
+	$default = false;
+
+	foreach ($color_settings as $index => $color) {
+		if (strpos($color, 'default-') !== false) {
+			$default = $index;
+		}
+	}
+
+	if ($default) {
+		$default_color = str_replace('default-', '', $color_settings[$default]);
+		$color_settings[$default] = $default_color;
+	} else {
+		$default_color = '';
+	}
+
+	$color_palette = [
+		'default' => $default_color,
+		'colors'  => $color_settings,
+	];
+
+	return $color_palette;
+}
