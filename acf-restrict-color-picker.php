@@ -162,11 +162,11 @@ class ACF_Restrict_Color_Picker_Options {
 	 * @return array HEX color codes.
 	 */
 	private function get_theme_color_palette() {
-		$colors = get_theme_support('editor-color-palette')[0];
+		$colors = get_theme_support('editor-color-palette');
 		$palette = [];
 
-		if (is_array($colors)) {
-			foreach ($colors as $color) {
+		if ($colors && is_array($colors)) {
+			foreach ($colors[0] as $color) {
 				if (isset($color['color'])) {
 					$palette[] = $color['color'];
 				}
