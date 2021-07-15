@@ -3,7 +3,7 @@
 	Plugin Name: Advanced Custom Fields: Restrict Color Picker Options
 	Plugin URI:
 	Description: Restrict ACF's color picker field to a specific subset of custom colors.
-	Version: 1.3
+	Version: 1.3.1
 	Author: Vital
 	Author URI: http://vtldesign.com
 	Text Domain: vitaldesign
@@ -184,7 +184,7 @@ new ACF_Restrict_Color_Picker_Options();
  *
  * @return array HEX color codes, including the default color.
  */
-function acfrcpo_get_color_palette() {
+function acfrcpo_get_color_options() {
 	$settings = get_option('acf_rcpo_settings');
 	$settings = preg_replace('/\s+/', '', $settings);
 	$color_settings = explode(',', $settings['color']);
